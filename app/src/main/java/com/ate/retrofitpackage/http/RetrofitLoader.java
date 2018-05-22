@@ -1,10 +1,12 @@
 package com.ate.retrofitpackage.http;
 
+import com.ate.retrofitpackage.bean.BaseResponse;
 import com.ate.retrofitpackage.bean.MovieDetail;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 public class RetrofitLoader{
     private RetrofitApi helper;
@@ -30,36 +32,7 @@ public class RetrofitLoader{
      * 获取某部电影的详细信息
      * @return
      */
-    public Observable<MovieDetail> getMovie(){
+    public Observable<ResponseBody> getMovie(){
         return observable(helper.getMovie());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

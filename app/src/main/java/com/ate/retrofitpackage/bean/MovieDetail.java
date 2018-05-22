@@ -37,6 +37,8 @@ public class MovieDetail {
      * aka : ["复联3","复仇者联盟：无限之战(台)","复仇者联盟3：无尽之战","Avengers: Infinity War - Part I","The Avengers 3: Part 1"]
      */
 
+    public int code;
+    public String msg;
 
     public RatingBean rating;
     public int reviews_count;

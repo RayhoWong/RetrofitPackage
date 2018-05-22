@@ -4,6 +4,7 @@ package com.ate.retrofitpackage.http;
 import com.ate.retrofitpackage.bean.MovieDetail;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 
 /**
@@ -11,5 +12,5 @@ import retrofit2.http.GET;
  */
 public interface RetrofitApi {
     @GET("subject/24773958")
-    Observable<MovieDetail> getMovie();
+    Observable<ResponseBody> getMovie();
 }
