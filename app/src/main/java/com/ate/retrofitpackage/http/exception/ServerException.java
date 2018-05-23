@@ -1,6 +1,8 @@
-package com.ate.retrofitpackage.http.ApiException;
+package com.ate.retrofitpackage.http.exception;
 
 /**
+ * 自定义后台接口返回的错误异常
+ *
  */
 public class ServerException extends RuntimeException {
     private int code;

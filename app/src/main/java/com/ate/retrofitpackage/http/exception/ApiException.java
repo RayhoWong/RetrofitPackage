@@ -1,6 +1,8 @@
-package com.ate.retrofitpackage.http.ApiException;
+package com.ate.retrofitpackage.http.exception;
 
 /**
+ * 自定义的网络请求返回的异常
+ * 在观察者的onError中得到
  */
 public class ApiException extends Exception {
     private int code;

@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.ate.retrofitpackage.R;
 import com.ate.retrofitpackage.bean.MovieDetail;
+import com.ate.retrofitpackage.http.NetObserver;
 import com.ate.retrofitpackage.http.RetrofitLoader;
+import com.ate.retrofitpackage.http.exception.ApiException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,38 +33,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 看影院
+     * 得到电影的详细信息
      */
-    private void getMovie(){
+    private void getMovie() {
         RetrofitLoader.getInstance().getMovie()
-                      .map(new Function<ResponseBody, MovieDetail>() {
-                          @Override
-                          public MovieDetail apply(ResponseBody responseBody) throws Exception {
-                              String content = responseBody.string();
-//                              JSONObject jsonObject = new JSONObject(content);
-                              return GSON.fromJson(content,MovieDetail.class);
-                          }
-                      })
-                .subscribe(new Observer<MovieDetail>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
+                .subscribe(new NetObserver<MovieDetail>() {
                     @Override
                     public void onNext(MovieDetail movieDetail) {
-                        Log.d(TAG, "TEST:"+movieDetail.toString());
+                        Log.d(TAG, "评分人数:"+movieDetail.ratings_count);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
+                    public void onError(ApiException ex) {
+                        Log.e(TAG, "onError: "+ex.getDisplayMessage());
                     }
                 });
     }
+
+
 }

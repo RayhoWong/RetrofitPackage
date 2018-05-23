@@ -1,4 +1,4 @@
-package com.ate.retrofitpackage.http.ApiException;
+package com.ate.retrofitpackage.http.exception;
 
 import com.google.gson.JsonParseException;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
@@ -10,7 +10,8 @@ import java.text.ParseException;
 
 
 /**
- *
+ * 规定所有异常的类型
+ * 最终返回一个自定义异常ApiException
  */
 public class ExceptionEngine {
 
@@ -60,7 +61,7 @@ public class ExceptionEngine {
             return ex;
         }else {
             ex = new ApiException(e, ERROR.UNKNOWN);
-            ex.setDisplayMessage("网络错误");          //未知错误
+            ex.setDisplayMessage("网络错误");//未知错误
             return ex;
         }
     }

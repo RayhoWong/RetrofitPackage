@@ -1,4 +1,4 @@
-package com.ate.retrofitpackage.http.ApiException;
+package com.ate.retrofitpackage.http.exception;
 
 /**
  * 与服务器约定好的异常

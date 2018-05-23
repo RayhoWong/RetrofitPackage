@@ -1,12 +1,9 @@
 package com.ate.retrofitpackage.http;
 
-import com.ate.retrofitpackage.bean.BaseResponse;
+
 import com.ate.retrofitpackage.bean.MovieDetail;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 public class RetrofitLoader{
     private RetrofitApi helper;
@@ -23,16 +20,22 @@ public class RetrofitLoader{
         return SingleHolder.loader;
     }
 
-    private <T> Observable<T> observable(Observable<T> observable){
-        return observable.subscribeOn(Schedulers.io())
-                         .observeOn(AndroidSchedulers.mainThread());
-    }
+//    private <T> Observable<T> observable(Observable<T> observable){
+//        return observable.subscribeOn(Schedulers.io())
+//                         .observeOn(AndroidSchedulers.mainThread());
+//    }
 
     /**
      * 获取某部电影的详细信息
      * @return
      */
-    public Observable<ResponseBody> getMovie(){
-        return observable(helper.getMovie());
+    public Observable<MovieDetail> getMovie(){
+        return helper.getMovie()
+                     //进行数据类型转换 返回将RespondBody类型转成具体的类对象
+                     .map(RxUtil.jsonTransform(MovieDetail.class))
+                      //捕获异常 并且分发到观察者的onError中处理
+                     .onErrorResumeNext(RxUtil.<MovieDetail>throwableFunc())
+                     //进行线程切换
+                     .compose(RxUtil.<MovieDetail>rxSchedulerHelper());
     }
 }
