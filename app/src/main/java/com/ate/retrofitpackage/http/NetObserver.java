@@ -19,7 +19,7 @@ public abstract class NetObserver<T> implements Observer<T>{
     @Override
     public void onError(Throwable e) {
         if(e instanceof ApiException){
-            onError((ApiException) e);
+            onError((ApiException)e);
         }else{
             ApiException exception = new ApiException(e,ERROR.NETWORD_ERROR);
             exception.setDisplayMessage("网络错误");

@@ -59,6 +59,10 @@ public class ExceptionEngine {
             ex = new ApiException(e, ERROR.NETWORD_ERROR);
             ex.setDisplayMessage("连接失败");  //均视为网络错误
             return ex;
+        }else if (e instanceof javax.net.ssl.SSLHandshakeException) {
+            ex = new ApiException(e, ERROR.SSL_ERROR);
+            ex.setDisplayMessage("证书验证失败");
+            return ex;
         }else {
             ex = new ApiException(e, ERROR.UNKNOWN);
             ex.setDisplayMessage("网络错误");//未知错误

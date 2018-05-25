@@ -2,10 +2,13 @@ package com.ate.retrofitpackage.http;
 
 import android.util.Log;
 
+import com.ate.retrofitpackage.base.BaseApp;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -34,6 +37,7 @@ public class RetrofitServiceHelper {
         builder.readTimeout(DEFAULT_READ_TIME_OUT,TimeUnit.SECONDS);
         //设置写操作超时的时间
         builder.writeTimeout(DEFAULT_WRITE_TIME_OUT,TimeUnit.SECONDS);
+
         //添加公共参数拦截器
 //        HttpCommonInterceptor interceptor = new HttpCommonInterceptor.Builder()
 //                                 .addHeaderParams("token","123456kobe")
@@ -47,12 +51,24 @@ public class RetrofitServiceHelper {
          步骤三：设置Level为HttpLoggingInterceptor.Level.BODY（最大权限）；
          步骤四：重写log方法，直接把返回的String message打印出来；
          */
-        builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                Log.i("TEST", "HttpLoggingInterceptor.log().message -> " + message);
-            }
-        }).setLevel(HttpLoggingInterceptor.Level.BODY));
+//        builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+//            @Override
+//            public void log(String message) {
+//                Log.i("TEST", "HttpLoggingInterceptor.log().message -> " + message);
+//            }
+//        }).setLevel(HttpLoggingInterceptor.Level.BODY));
+
+        //设置缓存路径
+        File cacheFile = new File(BaseApp.getContext().getCacheDir(), "caheData.txt");
+        //设置缓存大小
+        int cacheSize = 10*1024*1024;
+        Cache cache = new Cache(cacheFile, cacheSize);
+
+
+        //添加缓存拦截器
+        builder.addInterceptor(new CacheIntercepter());
+        builder.addNetworkInterceptor(new CacheIntercepter());
+        builder.cache(cache);
 
         // 创建Retrofit
         mRetrofit = new Retrofit.Builder()
@@ -80,5 +96,4 @@ public class RetrofitServiceHelper {
     public <T> T create(Class<T> service){
         return mRetrofit.create(service);
     }
-
 }
